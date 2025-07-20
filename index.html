@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CUB — Christ University Bot</title>
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 30px;
+      color: #003366;
+      font-size: 28px;
+    }
+
+    #chat-container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      height: 80vh;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    #messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      margin: 10px 0;
+      border-radius: 18px;
+      line-height: 1.5;
+      opacity: 0;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .user {
+      background: #d4eafd;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .bot {
+      background: #e4e6eb;
+      align-self: flex-start;
+    }
+
+    .timestamp {
+      font-size: 0.75em;
+      color: #555;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    #input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 10px;
+      background: #fff;
+    }
+
+    #input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      font-size: 16px;
+      resize: none;
+      max-height: 120px;
+    }
+
+    button {
+      background: #0066cc;
+      border: none;
+      color: #fff;
+      padding: 0 24px;
+      margin-left: 10px;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #004c99;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <!-- ✅ Marked.js for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <h1>CUB — Christ University Bot</h1>
+
+  <div id="chat-container">
+    <div id="messages"></div>
+    <div id="input-area">
+      <textarea id="input" rows="1" placeholder="Type your question here..."></textarea>
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      // Add user message
+      addMessage(text, 'user');
+
+      // Call backend
+      const response = await fetch('/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await response.json();
+
+      // Add bot response with Markdown
+      addMessage(data.reply, 'bot', true);
+
+      input.value = '';
+      input.style.height = 'auto';
+      input.focus();
+    }
+
+    function addMessage(text, type, isMarkdown = false) {
+      const message = document.createElement('div');
+      message.className = `message ${type}`;
+
+      if (isMarkdown) {
+        message.innerHTML = marked.parse(text);
+      } else {
+        message.textContent = text;
+      }
+
+      const timestamp = document.createElement('div');
+      timestamp.className = 'timestamp';
+      timestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      message.appendChild(timestamp);
+
+      messages.appendChild(message);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Enter = send | Shift+Enter = newline
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Auto grow textarea
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = (input.scrollHeight) + 'px';
+    });
+  </script>
+</body>
+</html>
