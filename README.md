@@ -1,4 +1,4 @@
-# 📘 CUB — Christ University Bot
+# 🤖 CUB — Christ University Bot
 
 # 📌 Overview
 CUB (Christ University Bot) is a specialized AI-powered chatbot designed to provide precise, reliable, and student-friendly information about Christ University.
