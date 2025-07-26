@@ -1,89 +1,104 @@
 # 🤖 CUB — Christ University Bot
+A college-specific AI chatbot built to answer queries exclusively related to Christ University using Gemini Pro with a custom UI and strict system instructions.
 
-# 📌 Overview
-CUB (Christ University Bot) is a specialized AI-powered chatbot designed to provide precise, reliable, and student-friendly information about Christ University.
-It uses Google’s Gemini LLM with clear system instructions to ensure it answers only Christ University–related queries — from admissions to attendance rules — and formats responses in clean, readable Markdown.
+## 📌 Overview
+CUB (Christ University Bot) is a web-based chatbot designed to assist students and visitors by providing clear, reliable, and formatted responses about Christ University's processes, policies, and academic 
+details.
 
-# 🎯 Objectives
+Unlike general-purpose bots, CUB is tightly scoped — it refuses to answer questions outside of Christ University and formats all replies using readable Markdown (headings, bullet points, bold, etc.).
 
-To automate repetitive student FAQs.
+## ✨ Features
+🎯 Strictly Christ University Only,
 
-To provide up-to-date information about Christ University policies.
+📖 Answers based on Gemini Pro's training + rules,
 
-To restrict the scope strictly to college-specific queries.
+🧠 Maintains chat context within session,
 
-To deliver answers in a clear, structured, user-friendly format.
+📝 Markdown-styled responses for readability,
 
-# 🔑 Key Features
-Context-Limited Replies: Only answers questions about Christ University.
+🚫 Refuses off-topic questions,
 
-Markdown Formatting: Uses headings, bullet points, bold & italics for clean presentation.
+📤 Feedback system for future enhancements,
 
-Web Chat Interface: User-friendly chat UI built with HTML, CSS & vanilla JS.
+🌐 Clean, responsive chat interface.
 
-Session Memory: Maintains conversation flow within a session.
+## 🛠️ Tech Stack
+### Layer	Tools Used
+**Frontend**:	HTML, CSS, JavaScript, Marked.js,
 
-Feedback Support: Collects user feedback for continuous improvement (future extension).
+**Backend**:	Python Flask, Google Generative AI SDK,
 
-# ⚙️ How It Works
-User Query: The user types a question.
+**AI Model**:	Gemini Pro (via google.generativeai),
 
-Backend (Flask): Receives the input and sends it to Google Gemini.
+**Env Handling**:	python-dotenv.
 
-LLM Response: Gemini returns a college-specific, Markdown-formatted answer.
+## 🧩 Project Structure
+```
+CUB/
+├── static/
+│   └── script.js
+├── templates/
+│   └── index.html
+├── app.py
+├── .env
+├── requirements.txt
+└── README.md
+```
 
-Frontend Display: The bot displays the response in a styled chat bubble.
+## 🚀 How to Run Locally
+### 1. Clone the Repo
+```
+git clone https://github.com/your-username/CUB-Christ-University-Bot.git
+cd CUB-Christ-University-Bot
+```
+### 2. Install Requirements
+```
+pip install -r requirements.txt
+```
+### 3. Set Up Your API Key
+Create a .env file in the root folder:
 
-Feedback: Option to submit a rating & comment at the end.
+```GOOGLE_API_KEY=your_api_key_here```
 
-# 📂 Components
-app.py — Flask server to handle routes, API calls, and LLM integration.
+Get your key from Google AI Studio.
 
-index.html — Clean chat UI with input box, send button, and Markdown rendering.
+### 4. Run the App
+``` python app.py ```
 
-.env — Stores the API key securely (excluded from Git).
+Now open your browser at ```http://localhost:5000```
 
-requirements.txt — Python package dependencies.
+### 🎯 Bot Behavior (Gemini System Instructions)
+#### Identity: 
+*CUB — Christ University Bot*
 
-# 🧩 Technologies Used
-Component	Technology
+#### Behavior:
 
-Backend	Python, Flask, google-generativeai
+Answers only Christ University–related queries,
 
-Frontend	HTML, CSS, JavaScript, Marked.js
+Responds with Markdown-formatted replies,
 
-LLM	Google Gemini gemini-2.0-flash model
+Refuses to answer anything outside scope,
 
-Extras	dotenv, fuzzywuzzy (for keyword checks)
+#### Sample refusal:
 
-# 📁 Project Workflow
-Step	Description
+```“I'm designed only to help with college-related queries for Christ University.”```
 
-1️⃣	Clone the repo
+## 📬 Feedback Feature
+After chat, users can:
 
-2️⃣	Add your Google Generative AI API key to .env
+Rate the conversation,
 
-3️⃣	Install dependencies: pip install -r requirements.txt
+Leave optional comments,
 
-4️⃣	Run: python app.py
+(Stored or logged — optional to plug into a database or Google Sheet.)
 
-5️⃣	Open in browser at http://localhost:5000
+## 🧠 Future Improvements
+ Integrate PDF rulebooks using RAG (Retrieval-Augmented Generation),
 
-# ✅ Highlights
-Restricts non-college queries: “I’m designed only to help with college-related queries for Christ University.”
+ Store chat history in a database,
 
-Real-time Markdown parsing for rich-text answers.
+ User authentication,
 
-Fully local, simple to deploy, and extendable with RAG or database storage.
+ Admin dashboard for monitoring queries & feedback,
 
-Feedback form integrated for quality assurance.
-
-# 🗂️ Future Scope
-✅ Integrate a vector database for rulebook-based RAG (Retrieval-Augmented Generation).
-
-✅ Store feedback and conversation logs for fine-tuning.
-
-✅ Add authentication for admin or staff usage.
-
-✅ Deploy on GCP, Heroku, or Render with HTTPS.
-
+ Deploy to Heroku/Render.
